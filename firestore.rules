@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Public collections read-only for anyone, writes for authenticated staff
+    match /Categories/{category} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    match /News/{article} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    match /Tags/{tag} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    match /Comments/{comment} {
+      allow read: if true;
+      allow create: if true; // anyone can post comments, or authenticated users
+      allow update, delete: if isAuthenticated();
+    }
+    
+    match /BreakingNews/{item} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    match /Advertisements/{ad} {
+      allow read: if true;
+      allow write, update: if true; // Click/view counter updates can be done by visitors
+    }
+    
+    match /Settings/{setting} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    match /Pages/{page} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    match /Newsletter/{subscriber} {
+      allow read: if isAuthenticated();
+      allow create: if true; // anyone can subscribe
+    }
+    
+    match /Visitors/{visitor} {
+      allow read: if isAuthenticated();
+      allow create: if true; // visitors log
+    }
+    
+    match /Users/{userId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (request.auth.uid == userId || isAuthenticated());
+    }
+    
+    match /Notifications/{notification} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+  }
+}

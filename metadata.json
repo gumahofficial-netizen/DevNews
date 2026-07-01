@@ -1,0 +1,6 @@
+{
+  "name": "Dev News Pro",
+  "description": "A modern, premium developer-focused news website and administrative portal with full-stack capabilities, integrated with Firebase, Cloudinary, and Gemini AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
